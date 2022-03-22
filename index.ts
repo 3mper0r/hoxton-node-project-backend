@@ -75,7 +75,99 @@ app.get('/validate', async (req, res) => {
     }
 })
 
+// app.get('/users', async (req, res) => {
+//     const allUsers = await prisma.user.findMany()
+//     try {
 
+//         if (allUsers) {
+//             res.send(allUsers)
+//         } else {
+//             res.send(404).send({ error: 'No user found' })
+//         }
+//     } catch (err) {
+//         //@ts-ignore
+//         res.status(400).send({ error: err.message })
+//     }
+// })
+
+// app.get('/name/:id', async (req, res) => {
+//     const id = Number(req.params.id)
+//     const userName = await prisma.user.findUnique({ where: { id: id } })
+//     try {
+
+
+//         if (userName) {
+//             res.send(userName)
+//         } else {
+//             res.send(404).send({ error: 'User not found' })
+//         }
+//     } catch (err) {
+//         //@ts-ignore
+//         res.status(400).send({ error: err.message })
+//     }
+// })
+// app.get('/users/:name', async (req, res) => {
+//     const name = req.params.name
+//     const userName = await prisma.user.findFirst({
+//         where: { name: name },
+//         include: {
+//             orders: {
+//                 include: { item: true }
+//             }
+//         }
+//     })
+//     if (userName) {
+//         res.send(userName)
+//     } else {
+//         res.status(404).send({ message: "User not found" })
+//     }
+// })
+
+
+app.get('/users/:email', async (req, res) => {
+    const email = req.params.email
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email: email },
+            include: {
+                orders: {
+                    include: { item: true }
+                }
+            }
+        })
+        if (user) {
+            res.send(user)
+        } else {
+            res.status(404).send({ error: 'User was not found' })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.delete('/orders/:id', async (req, res) => {
+    const id = Number(req.params.id)
+
+    try {
+        const order = await prisma.order.findUnique({ where: { id } })
+
+        if (order) {
+            await prisma.order.delete({ where: { id } })
+            const user = await prisma.user.findUnique({
+                where: { id: order.userId },
+                include: { orders: { include: { item: true } } }
+            })
+            res.send(user)
+        } else {
+            res.status(404).send({ error: 'Order do not exist' })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ err: err.message })
+    }
+})
 
 
 app.listen(4000, () => {
