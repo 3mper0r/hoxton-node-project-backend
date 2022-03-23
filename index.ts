@@ -27,6 +27,11 @@ async function getUserFromToken(token: string) {
     return user
 }
 
+
+app.get('/', (req, res) => {
+    res.send({ message: "WELCOME!" })
+})
+
 app.post('/sign-up', async (req, res) => {
     const { email, password, name } = req.body
 
@@ -75,53 +80,42 @@ app.get('/validate', async (req, res) => {
     }
 })
 
-// app.get('/users', async (req, res) => {
-//     const allUsers = await prisma.user.findMany()
-//     try {
-
-//         if (allUsers) {
-//             res.send(allUsers)
-//         } else {
-//             res.send(404).send({ error: 'No user found' })
-//         }
-//     } catch (err) {
-//         //@ts-ignore
-//         res.status(400).send({ error: err.message })
-//     }
-// })
-
-// app.get('/name/:id', async (req, res) => {
-//     const id = Number(req.params.id)
-//     const userName = await prisma.user.findUnique({ where: { id: id } })
-//     try {
+app.get('/users', async (req, res) => {
+    const allUsers = await prisma.user.findMany()
+    try {
+        if (allUsers) {
+            res.send(allUsers)
+        } else {
+            res.send(404).send({ error: 'No user found' })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
 
 
-//         if (userName) {
-//             res.send(userName)
-//         } else {
-//             res.send(404).send({ error: 'User not found' })
-//         }
-//     } catch (err) {
-//         //@ts-ignore
-//         res.status(400).send({ error: err.message })
-//     }
-// })
-// app.get('/users/:name', async (req, res) => {
-//     const name = req.params.name
-//     const userName = await prisma.user.findFirst({
-//         where: { name: name },
-//         include: {
-//             orders: {
-//                 include: { item: true }
-//             }
-//         }
-//     })
-//     if (userName) {
-//         res.send(userName)
-//     } else {
-//         res.status(404).send({ message: "User not found" })
-//     }
-// })
+app.get('/users/:name', async (req, res) => {
+    const name = req.params.name
+    const userName = await prisma.user.findFirst({
+        where: { name: name },
+        include: {
+            orders: {
+                include: { item: true }
+            }
+        }
+    })
+    try {
+        if (userName) {
+            res.send(userName)
+        } else {
+            res.status(404).send({ message: "User not found" })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
 
 
 app.get('/users/:email', async (req, res) => {
@@ -144,6 +138,29 @@ app.get('/users/:email', async (req, res) => {
     } catch (err) {
         //@ts-ignore
         res.status(400).send({ error: err.message })
+    }
+})
+
+app.get('/items', async (req, res) => {
+    const items = await prisma.item.findMany()
+    res.send(items)
+})
+
+app.get('/item/:title', async (req, res) => {
+    const title = req.params.title
+    try {
+        const item = await prisma.item.findFirst({
+            where: { title }
+        })
+
+        if (item) {
+            res.send(item)
+        } else {
+            res.status(404).send({ error: "Item not found" })
+        }
+    } catch (err) {
+        // @ts-ignore
+        res.status(404).send(`<pre>${err.message}</pre>`)
     }
 })
 
