@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 const items: Prisma.ItemCreateInput[] = [
     {
         title: 'Jeans',
-        Image: './prisma/jeans.webp',
+        Image: 'https://img01.ztat.net/article/spp-media-p1/bffec0d5b12b35a7bd12bf3426db55ba/5f529189e32546149da91fedc56a8623.jpg?imwidth=1800',
         price: 60,
         stock: true,
         //@ts-ignore
@@ -15,7 +15,7 @@ const items: Prisma.ItemCreateInput[] = [
     },
     {
         title: 'Cat Ears',
-        Image: 'catears.jpg',
+        Image: 'https://m.media-amazon.com/images/I/61AETjxcFZS._SL1500_.jpg',
         price: 7,
         stock: false,
         //@ts-ignore
@@ -23,7 +23,7 @@ const items: Prisma.ItemCreateInput[] = [
     },
     {
         title: 'Gucci Belt',
-        Image: 'guccibelt.jpg',
+        Image: 'https://images.stockx.com/images/Gucci-Belt-Green-Red-Web-Double-G-Brass-Buckle-15W-Black-Studio-1.jpg?fit=fill&bg=FFFFFF&w=700&h=500&fm=webp&auto=compress&q=90&dpr=2&trim=color&trimcolor=ffffff&updated_at=1610552221',
         price: 240,
         stock: true,
         //@ts-ignore
@@ -31,7 +31,7 @@ const items: Prisma.ItemCreateInput[] = [
     },
     {
         title: 'T-Shirt',
-        Image: 'tshirt.jpg',
+        Image: 'https://www.tezenis.com/dw/image/v2/BCXQ_PRD/on/demandware.static/-/Sites-TEZ_EC_COM/default/dw52cd15a2/images/2MM15C9120-F.jpg?sw=600&sfrm=jpeg',
         price: 5,
         stock: true,
         //@ts-ignore
@@ -39,7 +39,7 @@ const items: Prisma.ItemCreateInput[] = [
     },
     {
         title: 'Underwear',
-        Image: "underwear.jpg",
+        Image: "https://www.versace.com/dw/image/v2/ABAO_PRD/on/demandware.static/-/Sites-ver-master-catalog/default/dwf1337097/original/90_AU10026-A232741_A85K_10_GrecaBorderLowRiseTrunks-Boxers-versace-online-store_6_1.jpg?sw=450&sh=632&sm=fit&sfrm=jpg",
         price: 3,
         stock: true,
         //@ts-ignore
@@ -61,7 +61,7 @@ const users: Prisma.UserCreateInput[] = [
 
         },
         basket: {
-            create: [{ item: { connect: { title: 'Jeans' } }, quantity: 1 }]
+            create: {}
         }
     },
     {

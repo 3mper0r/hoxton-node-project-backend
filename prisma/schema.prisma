@@ -21,14 +21,14 @@ model User {
 }
 
 model Item {
-  id     Int     @id @default(autoincrement())
-  title  String  @unique
-  Image  String  @unique
-  price  Float
-  stock  Boolean
-  orders Order[]
-  genre  String
-
+  id      Int      @id @default(autoincrement())
+  title   String   @unique
+  Image   String   @unique
+  price   Float
+  stock   Boolean
+  orders  Order[]
+  genre   String
+  baskets Basket[]
 }
 
 model Order {
@@ -42,8 +42,8 @@ model Order {
 }
 
 model Basket {
-  id Int @id @default(autoincrement())
-
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique
+  id     Int    @id @default(autoincrement())
+  items  Item[]
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
 }
