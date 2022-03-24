@@ -47,6 +47,7 @@ const items: Prisma.ItemCreateInput[] = [
     }
 ]
 
+
 const users: Prisma.UserCreateInput[] = [
     {
         name: 'Elidon',
@@ -55,8 +56,12 @@ const users: Prisma.UserCreateInput[] = [
         orders: {
             create: [
                 { item: { connect: { title: 'Jeans' } }, quantity: 3 },
-                { item: { connect: { title: 'Underwear' } }, quantity: 6 }
+                { item: { connect: { title: 'Underwear' } }, quantity: 6 },
             ]
+
+        },
+        basket: {
+            create: [{ item: { connect: { title: 'Jeans' } }, quantity: 1 }]
         }
     },
     {
@@ -67,7 +72,7 @@ const users: Prisma.UserCreateInput[] = [
             create: [
                 { item: { connect: { title: 'T-Shirt' } }, quantity: 5 },
                 { item: { connect: { title: 'Gucci Belt' } }, quantity: 2 },
-                { item: { connect: { title: 'Jeans' } }, quantity: 3 }
+                { item: { connect: { title: 'Jeans' } }, quantity: 3 },
             ]
         }
     }

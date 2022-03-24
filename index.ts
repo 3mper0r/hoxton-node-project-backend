@@ -122,7 +122,7 @@ app.get('/users/:email', async (req, res) => {
     const email = req.params.email
 
     try {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: { email: email },
             include: {
                 orders: {
@@ -144,6 +144,11 @@ app.get('/users/:email', async (req, res) => {
 app.get('/items', async (req, res) => {
     const items = await prisma.item.findMany()
     res.send(items)
+})
+
+app.get('/basket', async (req, res) => {
+    const basket = await prisma.basket.findFirst()
+    res.send(basket)
 })
 
 app.get('/item/:title', async (req, res) => {
